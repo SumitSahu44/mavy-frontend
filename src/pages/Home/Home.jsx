@@ -50,7 +50,7 @@ const CustomArrow = ({ item, onClick, style, direction }) => (
 function Home() {
     const [products, setProducts] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-    var cartLength = 0;
+    var cartLength;
     
     const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
     cartLength = cartItems.length;
