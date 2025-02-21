@@ -31,6 +31,9 @@ section{
     width: 80vw;
     margin: auto;
 }
+button{
+    cursor: pointer;
+}
 .cart-item{
     position: relative;
     border-radius: 20px;

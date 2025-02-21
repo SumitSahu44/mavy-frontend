@@ -16,6 +16,7 @@ import { IoMdClose } from "react-icons/io";
     const [productsDetails, setProductsDetails] = useState([]); // Contains fetched product details
     const [isLoading, setIsLoading] = useState(true); // Add loading state
     const [totalBill, setTotalBill] = useState(null);
+    const shippingCharge = 10.99;
     const authToken = localStorage.getItem('authToken'); // Retrieve token from localStorage
       const [cartLength, setCartLength] = useState(
         (JSON.parse(localStorage.getItem("cart")) || []).length
@@ -110,7 +111,10 @@ import { IoMdClose } from "react-icons/io";
                 total += element.quantity * price;
             });
 
-            setTotalBill(parseFloat(total.toFixed(2)));
+
+            
+            setTotalBill(parseFloat((total + shippingCharge).toFixed(2)));
+
 
         } catch (error) {
             console.error('Error fetching data:', error);
@@ -160,7 +164,7 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
             total += element.quantity * price;
         });
 
-        setTotalBill(parseFloat(total.toFixed(2)));
+        setTotalBill(parseFloat((total + shippingCharge).toFixed(2)));
 
         toast.success("Item removed from cart!");
 
@@ -174,6 +178,8 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
 
       // Handle checkout
     const handleCheckout = async () => {
+        console.log("Auth Token:", authToken);
+
         try {
            const response = await fetch('https://mavy-pxtx.onrender.com/user/checkout', {
                 method: 'POST',
@@ -314,15 +320,17 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
                         <p>Cost Subtotal</p>
                         {/* <p>Shipping Cost</p> */}
                         <p>Discount</p>
+                        <p>Shipping</p>
                         <h4>Total Cost</h4>
                     </div>
                 </div>
                 <div className="c-l-info">
                     <div>
-                        <p>${totalBill}</p>
+                        <p>${parseFloat(totalBill.toFixed(2))}</p>
                         {/* <p>$9</p> */}
                         <p>N/A</p>
-                        <h4>${totalBill}</h4>
+                        <p>{shippingCharge}</p>
+                        <h4>${parseFloat(totalBill.toFixed(2))}</h4>
                     </div>
                 </div>
             </div>
