@@ -4,7 +4,7 @@ import "../style/responsive-nav.css";
 import React, { useState, useEffect } from 'react';
 import { useGSAP } from "@gsap/react";
 import { gsap, Power3, Circ, Expo } from 'gsap';
-
+import { FiShoppingCart } from "react-icons/fi"; // Import cart icon
 import { ToastContainer, toast } from "react-toastify"; // Import Toastify
 import "react-toastify/dist/ReactToastify.css"; // Import Toastify CSS
 import { RiMenu3Fill } from "react-icons/ri";
@@ -17,6 +17,9 @@ import { IoMdClose } from "react-icons/io";
     const [isLoading, setIsLoading] = useState(true); // Add loading state
     const [totalBill, setTotalBill] = useState(null);
     const authToken = localStorage.getItem('authToken'); // Retrieve token from localStorage
+      const [cartLength, setCartLength] = useState(
+        (JSON.parse(localStorage.getItem("cart")) || []).length
+    );
     var calculateBill = 0;
     useGSAP(() => {
         let menu = document.querySelector("#nav i");
@@ -51,14 +54,22 @@ import { IoMdClose } from "react-icons/io";
         });
     });
 
-  // Fetch user data, cart items, and product details
-useEffect(() => {
+    // Fetch user data, cart items, and product details
+   // Fetch user data, cart items, and product details
+   useEffect(() => {
     const fetchData = async () => {
         try {
             // Fetch cart data from localStorage
             const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
             setCartItems(storedCart); // Store cart items
             
+            if (storedCart.length === 0) {
+                setProductsDetails([]);
+                setTotalBill(0);
+                setIsLoading(false);
+                return;
+            }
+
             // Fetch product details for each productId
             const fetchedProductDetails = await Promise.all(
                 storedCart.map(async (item) => {
@@ -109,51 +120,57 @@ useEffect(() => {
     };
 
     fetchData();
-}, [productsDetails]);
-
+}, []); // Run only on mount
 
     
 
+const removeCartItem = (itemId, itemColor, itemSize) => {
+    try {
+        // Get cart from localStorage
+        let storedCart = JSON.parse(localStorage.getItem("cart")) || [];
 
-    const removeCartItem = async (itemId) => {
-        try {
-          
-            const response = await fetch(`https://mavy-pxtx.onrender.com/user/cartItemDelete?pid=${itemId}`, {
-              method: 'DELETE',
-              headers: {
-                'Content-Type': 'application/json',
-               'Authorization': `Bearer ${authToken}`, // Attach token in the Authorization header
-              },             
-              credentials: 'include', // Include cookies
-            });
-          
-            if (response.ok) {
-              const data = await response.json();
-            //   alert(JSON.stringify(data.products))
-            const updatedCartItems = cartItems.filter(item => item.productId !== itemId);
-            setCartItems(updatedCartItems); // Update the cart items in the state
+        // Remove only the item that matches productId, color, and size
+        const updatedCartItems = storedCart.filter(item => 
+            !(item.productId === itemId && item.color === itemColor && item.size === itemSize)
+        );
 
-            // Remove the item from productsDetails
-            const updatedProductsDetails = productsDetails.filter(product => product.productDetails._id !== itemId);
-            setProductsDetails(updatedProductsDetails); // Update the product details in the state
-             
-            let total = 0
-           
-            updatedProductsDetails.forEach(element => {
-                let price = (["S", "M", "L"].includes(element.size)) ? 24.99 : 34.99; 
-                total += element.quantity * price;
-            });
-            console.log(`updatedProductsDetails ${updatedProductsDetails}`)
-            setTotalBill(parseFloat(total.toFixed(2)));
-            toast.success("Item deleted!");
+        // Check if any item was actually removed
+        if (updatedCartItems.length === storedCart.length) {
+            console.warn("No matching item found to remove.");
+            return;
+        }
 
-            } else {
-              console.error("Failed to remove cart item:", response.statusText);
-            }
-          } catch (error) {
-            console.error("Error removing cart item:", error);
-          }
-      };
+        // Update localStorage
+        localStorage.setItem("cart", JSON.stringify(updatedCartItems));
+         setCartLength((JSON.parse(localStorage.getItem("cart")) || []).length) 
+        // Update state with new cart items
+        setCartItems([...updatedCartItems]); 
+
+        // Remove the item from productsDetails
+        setProductsDetails(prevProducts => 
+            prevProducts.filter(product => 
+                !(product.productDetails._id === itemId && product.color === itemColor && product.size === itemSize)
+            )
+        );
+
+        // Recalculate total bill
+        let total = 0;
+        updatedCartItems.forEach(element => {
+            let price = (["S", "M", "L"].includes(element.size)) ? 24.99 : 34.99;
+            total += element.quantity * price;
+        });
+
+        setTotalBill(parseFloat(total.toFixed(2)));
+
+        toast.success("Item removed from cart!");
+
+    } catch (error) {
+        console.error("Error removing item from cart:", error);
+    }
+};
+
+
+
 
       // Handle checkout
     const handleCheckout = async () => {
@@ -193,7 +210,15 @@ useEffect(() => {
                 <div className="navbar">
                     <div id="nav">
                         <img src="img/qt=q_95.jpeg" alt="" />
-                        <i><RiMenu3Fill /></i>
+                       <div>
+                                                                         
+                                                                         <a href="/cart" style={{ position: "relative", textDecoration: "none", color: "white" }}>
+                                                                             <FiShoppingCart size={25} style={{ margin: "5px 10px" }} />
+                                                                             <sup style={{position:"absolute",}}>{cartLength ? cartLength: ' '}</sup>
+                                                                         </a>
+                                                                         <i style={{marginLeft:"20px"}} ><RiMenu3Fill /></i>
+                                                                      </div>
+                                       
                     </div>
                     <div id="full">
                         <a href="/"><h4>Home</h4></a>
@@ -211,74 +236,75 @@ useEffect(() => {
                     <h1>My Cart</h1>
                 </div>
                 <div className="cart-item-container">
-    <div className="cart-left" key={cartItems.length}>
-        {isLoading ? (
-            <p>Loading your cart...</p> // Show loading indicator while data is being fetched
+                <div className="cart-left" key={cartItems.length}>
+    {isLoading ? (
+        <p>Loading your cart...</p> // Show loading indicator while data is being fetched
+    ) : (
+        productsDetails.length === 0 ? (
+            <h2 className="empty">Your cart is empty.</h2>
         ) : (
-            productsDetails.length === 0 ? (
-                <h2 className="empty">Your cart is empty.</h2>
-            ) : (
-                productsDetails.map((item) => {
-                    let price = 24.99; 
-                    let colorCode = 0;
-                    if (item.size === "XL" || item.size === "2XL" || item.size === "3XL") {
-                        price = 34.99; 
-                    }
-                    if (item.color === "Navy Blue") {
-                        colorCode = "#000080"; 
-                    } else if(item.color === "Light Green") {
-                        colorCode = "#90EE90"; 
-                    }
-                    else if(item.color === "Black") {
-                        colorCode = "#000000"; 
-                    }else{
-                        colorCode = "#FFFFFF";
-                    }
-                   
-                    calculateBill = calculateBill + price;
-                   return (
-                        <div className="cart-item" key={item.productDetails._id}>
-                            <div className="item-img">
-                                <img src={`img/${item.productDetails.imageUrl?.[0] || 'default-image.jpg'}`} alt={item.productDetails.name} />
-                            </div>
-                            <div className="item-info">
-                                <h3>{item.productDetails.name}</h3>
-                                <p>{item.productDetails.description}</p>
-                                <p>${price }</p> {/* Display the price based on size */}
-                                <p>Size: {item.size}</p>
-                                 {/* Display Selected Color */}
-                                    <p style={{display:"flex", alignItems:"center"}}><span>Color: </span>
-                                    <span style={{
-                                        width: "20px",
-                                        height: "20px",
-                                        backgroundColor: colorCode,
-                                        borderRadius: "50%",
-                                        border: "1px solid #000",
-                                        display: "inline-block",
-                                        marginLeft: "10px"
-                                    }}></span>
-                                    </p>
-                                <form action="#">
-                                    <label>Qty:</label>
-                                    <input type="number" min="1" value={item.quantity}
-                                           onChange={(e) => console.log('Handle quantity change')} />
-                                </form>
-                            </div>
-                            
-                            <div className="close" onClick={() => removeCartItem(item._id)}>
-                                <i className="text-red-500 bg-transparent cross-icon"><b>X</b></i>
-                            </div>
+            productsDetails.map((item) => {
+                let price = 24.99; 
+                let colorCode = 0;
+
+                if (item.size === "XL" || item.size === "2XL" || item.size === "3XL") {
+                    price = 34.99; 
+                }
+
+                if (item.color === "Navy Blue") {
+                    colorCode = "#000080"; 
+                } else if (item.color === "Light Green") {
+                    colorCode = "#90EE90"; 
+                } else if (item.color === "Black") {
+                    colorCode = "#000000"; 
+                } else {
+                    colorCode = "#FFFFFF";
+                }
+
+                calculateBill = calculateBill + price;
+
+                return (
+                    <div className="cart-item" key={item.productDetails._id || item._id}>
+                        <div className="item-img">
+                            <img src={`img/${item.productDetails.imageUrl?.[0] || 'default-image.jpg'}`} alt={item.productDetails.name} />
                         </div>
-                    );
-                })
-                
-                
-            )
-            
-        )}
-        
-            
-    </div>
+                        <div className="item-info">
+                            <h3>{item.productDetails.name}</h3>
+                            <p>{item.productDetails.description}</p>
+                            <p>${price }</p> {/* Display the price based on size */}
+                            <p>Size: {item.size}</p>
+
+                            {/* Display Selected Color */}
+                            <p style={{ display: "flex", alignItems: "center" }}>
+                                <span>Color: </span>
+                                <span style={{
+                                    width: "20px",
+                                    height: "20px",
+                                    backgroundColor: colorCode,
+                                    borderRadius: "50%",
+                                    border: "1px solid #000",
+                                    display: "inline-block",
+                                    marginLeft: "10px"
+                                }}></span>
+                            </p>
+
+                            <form action="#">
+                                <label>Qty:</label>
+                                <input type="number" min="1" value={item.quantity}
+                                       onChange={(e) => console.log('Handle quantity change')} />
+                            </form>
+                        </div>
+                        
+                        <div className="close" onClick={() => removeCartItem(item.productDetails._id, item.color, item.size)}>
+                            <i className="text-red-500 bg-transparent cross-icon"><b>X</b></i>
+                        </div>
+                    </div>
+                );
+            })
+        )
+    )}
+</div>
+
     {totalBill ? (
         <div className="cart-right">
             <h2>Cart Total</h2>
