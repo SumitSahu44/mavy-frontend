@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+.navbar{
+    position: relative;
+    z-index: 100;
+}
+#nav-color{
+    background-color: white;
+}
+#nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 2rem 8rem;
+    z-index: 100;
+} 
+#nav h1{
+    font-size: 30px;
+}
+#nav i{
+    font-size: 30px;
+    font-weight: 800;
+    cursor: pointer;
+}
+#nav img{
+    width: 150px;
+    height: 150px;
+}
+#full{
+    height: 100%;
+    width: 30%;
+    top: 0px;
+    right: -30%;
+    z-index: 10;
+    position: fixed;
+    background-color: #E5B80B;;
+    /* background-color: rgba(255, 255, 255, 0.421); */
+    backdrop-filter: blur(10px);
+    padding: 130px 80px;
+    cursor: pointer;
+}
+#full a{
+    text-decoration: none;
+    color: black;
+}
+#full h4{
+    color: white;
+    font-size: 30px;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+#full i{
+    display: flex;
+    position: absolute;
+    top:35px;
+    right: 40px;
+    font-size: 25px;
+    font-weight: 600;
+    background-color: white;
+    border-radius:60%;
+    padding: 5px;
+    color: #000;
+}
+#signup{
+    width: 150px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    background-color: rgb(211, 198, 47);
+    color: white;
+}
+#login{
+    width: 130px;
+    padding: 10px 20px;
+    border-radius: 30px;
+    background-color:black;
+    color: white;
+}
+#signup :hover{
+    color: white;
+}
+
+/* nav */
+@media screen and (max-width:1150px){
+    #nav{
+        padding: 2rem 4rem;
+    }
+}
+@media screen and (max-width:750px){
+    #full h4{
+        font-size: 20px;
+    }
+    #full{
+        padding: 120px 40px;
+    }
+}
+@media screen and (max-width:600px){
+    #nav img{
+        width: 70px;
+        height: 70px;
+    }
+    #full{
+        width: 50%;
+        right: -50%;
+    }
+}
+@media screen and (max-width: 500px){
+    #nav h1{
+        font-size: 25px;
+    }
+}
+@media screen and (max-width:480px){
+    #full{
+        width: 60%;
+        right: -60%;
+   }
+   #signup{
+    width: 100px;
+   }
+   #login{
+    width: 100px;
+   }
+   #full i {
+    right: 20px;
+   }
+}
+@media screen and (max-width: 450px){
+        #nav{
+            padding: 2rem 4rem;
+        }
+}
