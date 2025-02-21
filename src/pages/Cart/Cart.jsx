@@ -51,77 +51,66 @@ import { IoMdClose } from "react-icons/io";
         });
     });
 
-    // Fetch user data, cart items, and product details
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                // Fetch userId
-
-              
-
-                // Fetch cart items
-                const response2 = await fetch(`https://mavy-pxtx.onrender.com/user/cart`, {
-                    method: 'GET',
-                    headers: {
-                        'Authorization': `Bearer ${authToken}`, // Attach token in the Authorization header
-                    },
-                    credentials: 'include', // Ensures cookies are sent with the request
-                });
-                
-                if (!response2.ok) {
-                    throw new Error('Error fetching cart data');
-                }
-                
-                const cartData = await response2.json();
-                setCartItems(cartData); // Store cart items
-                // Fetch product details for each productId
-                const fetchedProductDetails = await Promise.all(
-                    cartData.map(async (item) => {
+  // Fetch user data, cart items, and product details
+useEffect(() => {
+    const fetchData = async () => {
+        try {
+            // Fetch cart data from localStorage
+            const storedCart = JSON.parse(localStorage.getItem("cart")) || [];
+            setCartItems(storedCart); // Store cart items
+            
+            // Fetch product details for each productId
+            const fetchedProductDetails = await Promise.all(
+                storedCart.map(async (item) => {
+                    try {
                         const productResponse = await fetch(`https://mavy-pxtx.onrender.com/user/products?pid=${item.productId}`, {
                             method: 'GET',
                             credentials: 'include'
                         });
-                        
+
                         if (!productResponse.ok) {
                             throw new Error(`Error fetching product data for ID ${item.productId}`);
                         }
-                        
+
                         const productDetails = await productResponse.json();
                         return {
                             productDetails,
                             quantity: item.quantity,
                             size: item.size,
-                            color:item.color,
+                            color: item.color,
                             _id: item._id
                         };
-                    })
-                );
+                    } catch (error) {
+                        console.error(`Error fetching product details for ${item.productId}:`, error);
+                        return null;
+                    }
+                })
+            );
 
-                setProductsDetails(fetchedProductDetails);
-                console.log("Fetched product details: ", fetchedProductDetails);
+            // Filter out any failed fetches (null values)
+            const validProducts = fetchedProductDetails.filter(item => item !== null);
+            setProductsDetails(validProducts);
+            console.log("Fetched product details: ", validProducts);
 
-                // Calculate total bill
-                let total = 0;
-                fetchedProductDetails.forEach(element => {
-                    let price = (["S", "M", "L"].includes(element.size)) ? 24.99 : 34.99; 
-                    total += element.quantity * price;
-                });
+            // Calculate total bill
+            let total = 0;
+            validProducts.forEach(element => {
+                let price = (["S", "M", "L"].includes(element.size)) ? 24.99 : 34.99;
+                total += element.quantity * price;
+            });
 
-                setTotalBill(parseFloat(total.toFixed(2)));
+            setTotalBill(parseFloat(total.toFixed(2)));
 
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            } finally {
-                setIsLoading(false); // Stop loading
-            }
-        };
+        } catch (error) {
+            console.error('Error fetching data:', error);
+        } finally {
+            setIsLoading(false); // Stop loading
+        }
+    };
 
+    fetchData();
+}, [productsDetails]);
 
-      
-    
-
-        fetchData();
-    }, [productsDetails]);
 
     
 

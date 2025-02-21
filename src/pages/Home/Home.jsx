@@ -135,7 +135,7 @@ function Home() {
                                 
                                 <a href="/cart" style={{ position: "relative", textDecoration: "none", color: "white" }}>
                                     <FiShoppingCart size={25} style={{ margin: "5px 10px" }} />
-                                    <sup style={{position:"absolute",}}>{cartLength?cartLenght:''}</sup>
+                                    <sup style={{position:"absolute",}}>{cartLength?cartLength:''}</sup>
                                 </a>
                                 <i style={{marginLeft:"20px"}} ><RiMenu3Fill /></i>
                              </div>

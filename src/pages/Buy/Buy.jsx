@@ -2,6 +2,7 @@ import React, { useState, useEffect ,Suspense} from 'react';
 import { useSearchParams } from "react-router-dom";
 import { useGSAP } from "@gsap/react";
 import { gsap, Power3, Circ,Expo } from 'gsap';
+import { FiShoppingCart } from "react-icons/fi"; // Import cart icon
 import { RiMenu3Fill } from "react-icons/ri";
 import { IoMdClose } from "react-icons/io";
 import '../style/responsive-nav.css'
@@ -22,7 +23,9 @@ const Buy=()=>{
   const [selectedSize, setSelectedSize] = useState(""); // To store selected size
   const [priceAccordingToSize, setPriceAccordingToSize] = useState("");
   const [selectedColor, setSelectedColor] = useState(null);
-
+  const [cartLength, setCartLength] = useState(
+    (JSON.parse(localStorage.getItem("cart")) || []).length
+);
   const sizePriceMapping = {
     "S": 24.99,
     "M": 24.99,
@@ -103,26 +106,12 @@ close.addEventListener("click",function(){
   useEffect(() => {
    
     const fetchData = async () => {
-   
-     
 
-
-  //  try {
-  //   const response1 = await fetch(`https://mavy-pxtx.onrender.com/user/userId`, {
-  //       method: 'GET',
-  //       credentials: 'include', // Ensures cookies are sent with the request
-  //   });
-    
-  //   if (!response1.ok) {
-  //       throw new Error('Error fetching user data');
-  //   }
-    
-  //       const data1 = await response1.json();
-  //       console.log(`dATA ${data1}`)
-  //       setUserId(data1.userId)
-  //   } catch (error) {
-  //       console.error('Error fetching data:', error);
-  //   }
+      // fetch cart length 
+      const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+      setCartLength(cartItems.length)
+      
+            
 
 
 
@@ -169,16 +158,22 @@ close.addEventListener("click",function(){
     cart[existingItemIndex].quantity += 1;
   } else {
     // Add new product to the cart
+   
     cart.push({
       productId,
       quantity: 1,
       size: selectedSize,
       color: selectedColor,
     });
+
+
+   
   }
 
   // Save updated cart back to localStorage
-  localStorage.setItem('cart', JSON.stringify(cart));
+  localStorage.setItem("cart", JSON.stringify(cart));
+    setCartLength(cart.length); // Update state immediately
+
 
   // Show success message
   toast.success("Product added to cart successfully!");
@@ -203,7 +198,16 @@ const handleSizeChange = (size) => {
             <div className="navbar">
                 <div id="nav">
                   <img src="/img/qt=q_95.jpeg" alt=""/>
-                  <i ><RiMenu3Fill /></i>
+
+                   <div>
+                                                  
+                                                  <a href="/cart" style={{ position: "relative", textDecoration: "none", color: "white" }}>
+                                                      <FiShoppingCart size={25} style={{ margin: "5px 10px" }} />
+                                                      <sup style={{position:"absolute",}}>{cartLength ? cartLength: ' '}</sup>
+                                                  </a>
+                                                  <i style={{marginLeft:"20px"}} ><RiMenu3Fill /></i>
+                                               </div>
+                
                 </div>
                 <div id="full">
                   <a href="/"><h4>Home</h4></a>
