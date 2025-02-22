@@ -178,18 +178,17 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
 
       // Handle checkout
     const handleCheckout = async () => {
-        console.log("Auth Token:", authToken);
-
+     
         try {
            const response = await fetch('https://mavy-pxtx.onrender.com/user/checkout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                   'Authorization': `Bearer ${authToken}`, // Attach token in the Authorization header
+                //    'Authorization': `Bearer ${authToken}`, // Attach token in the Authorization header
                   },  
                 credentials: 'include', // Include cookies
                 body: JSON.stringify({
-                    userId,
+                    // userId,
                     cartItems,
                     totalBill
                 })
