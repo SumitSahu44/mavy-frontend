@@ -125,7 +125,7 @@ const About = () => {
                     <h3>Customer Care</h3>
                     <ul>
                         <li><a href="#">Contact Us</a></li>
-                        <li>Call +91 123 456 789</li>
+                        <li>Call +1 276-336-1681</li>
                         <li><a href="#">FAQ</a></li>
                     </ul>
                 </div>
