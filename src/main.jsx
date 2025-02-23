@@ -10,6 +10,7 @@ import Buy from './pages/Buy/Buy.jsx'
 import Signup from './pages/Signup/Signup.jsx'
 import Login from './pages/Login/Login.jsx'
 import Success from './pages/Success/Success.jsx'
+import Failed from './pages/Failed/Failed.jsx'
 
 const router=createBrowserRouter([
   {
@@ -39,6 +40,10 @@ const router=createBrowserRouter([
   ,{
     path:'/success',
     element:<Success/>
+  }
+  ,{
+    path:'/failed',
+    element:<Failed/>
   }
   ,{
     path:'/login',

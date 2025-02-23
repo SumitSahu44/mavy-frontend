@@ -14,9 +14,13 @@ import { IoMdClose } from "react-icons/io";
     const [userId, setUserId] = useState(null); // Set this to your logged-in user ID 
     const [cartItems, setCartItems] = useState([]); // Contains productId and quantity
     const [productsDetails, setProductsDetails] = useState([]); // Contains fetched product details
+    const [email, setEmail] = useState("");
+    const [error, setError] = useState("");
+
     const [isLoading, setIsLoading] = useState(true); // Add loading state
     const [totalBill, setTotalBill] = useState(null);
     const shippingCharge = 10.99;
+
     const authToken = localStorage.getItem('authToken'); // Retrieve token from localStorage
       const [cartLength, setCartLength] = useState(
         (JSON.parse(localStorage.getItem("cart")) || []).length
@@ -178,7 +182,12 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
 
       // Handle checkout
     const handleCheckout = async () => {
-     
+        if (!email) {
+            setError("Email is required");
+            return;
+        }
+        setError(""); // Clear error when email is valid
+        // Proceed with checkout logic
         try {
            const response = await fetch('https://mavy-pxtx.onrender.com/user/checkout', {
                 method: 'POST',
@@ -188,7 +197,7 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
                   },  
                 credentials: 'include', // Include cookies
                 body: JSON.stringify({
-                    // userId,
+                    email, // Send the email from input
                     cartItems,
                     totalBill
                 })
@@ -333,8 +342,17 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
                     </div>
                 </div>
             </div>
+
+            <div>
+                <input type="email" style={{width:"100%",outline:"none",padding:"10px"}}
+                 placeholder="Enter your email"
+                 value={email}
+                 onChange={(e) => setEmail(e.target.value)}
+                 required="" />
+                  {error && <p style={{ color: "red" }}>{error}</p>}
+            </div>
             <div className="order-btn">
-                <button onClick={handleCheckout}>Place Order</button>
+                <button onClick={handleCheckout} >Place Order</button>
             </div>
         </div>
     ) : ''}

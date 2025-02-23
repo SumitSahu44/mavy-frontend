@@ -3,6 +3,7 @@ import "./Product.css"
 import { useGSAP } from "@gsap/react";
 import { gsap, Power3, Circ, Expo } from 'gsap';
 import { RiMenu3Fill } from "react-icons/ri";
+import { FiShoppingCart } from "react-icons/fi"; // Import cart icon
 import { IoMdClose } from "react-icons/io";
 import { useEffect, useState } from "react";
 import Slider from 'react-slick';
@@ -14,6 +15,9 @@ import { sliderSettings } from '../Home/Home';
 function Product() {
     const [products, setProducts] = useState([]); // State to store product details
     const [isLoading, setIsLoading] = useState(true); // Loading state
+ const [cartLength, setCartLength] = useState(
+    (JSON.parse(localStorage.getItem("cart")) || []).length
+);
 
 
     useGSAP(() => {
@@ -84,7 +88,14 @@ function Product() {
                 <div className="navbar">
                     <div id="nav">
                         <img src="img/qt=q_95.jpeg" alt="" />
-                        <i ><RiMenu3Fill /></i>
+                        <div>
+                                                                         
+                                                                         <a href="/cart" style={{ position: "relative", textDecoration: "none", color: "white" }}>
+                                                                             <FiShoppingCart size={25} style={{ margin: "5px 10px" }} />
+                                                                             <sup style={{position:"absolute",}}>{cartLength ? cartLength: ' '}</sup>
+                                                                         </a>
+                                                                         <i style={{marginLeft:"20px"}} ><RiMenu3Fill /></i>
+                                                                      </div>
                     </div>
                     <div id="full">
                         <a href="/"><h4>Home</h4></a>

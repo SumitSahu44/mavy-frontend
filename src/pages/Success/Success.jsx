@@ -25,6 +25,11 @@ const PaymentSuccess = () => {
                     if (data.success) {
                         setIsValid(true);
 
+                        localStorage.removeItem("cart");
+                        localStorage.clear();
+
+                         console.log("Cart cleared from localStorage.");
+
                     } else {
                        window.location.href="./"
                     }
@@ -34,32 +39,7 @@ const PaymentSuccess = () => {
                 }
                       
     
-                    try {
-                    
-                        const deleteResponse = await fetch('https://mavy-pxtx.onrender.com/user/cartClear', {
-                            method: 'DELETE',
-                            headers: {
-                                'Content-Type': 'application/json',
-                               'Authorization': `Bearer ${authToken}`, // Attach token in the Authorization header
-                              },  
-                            credentials: 'include',
-                        });
-        
-                        if (deleteResponse.ok) {
-                            console.log("Cart items cleared successfully.");
-                        } else {
-                            console.error("Error clearing the cart:", await deleteResponse.json());
-                        }
-                        // }
-                    } catch (error) {
-                        console.error('Error verifying payment status:', error);
-                    }
-                // }
-            
-
-          
-
-          
+                  
         };
 
         checkPaymentStatus();
@@ -69,7 +49,7 @@ const PaymentSuccess = () => {
        {
         setTimeout(() => {
             window.location.href="/product"
-         }, 50000);
+         }, 8000);
       } 
 
        {
