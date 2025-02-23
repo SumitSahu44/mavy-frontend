@@ -113,7 +113,7 @@ import { IoMdClose } from "react-icons/io";
 
 
             
-            setTotalBill(parseFloat((total + shippingCharge).toFixed(2)));
+            setTotalBill(parseFloat((total).toFixed(2)));
 
 
         } catch (error) {
@@ -164,7 +164,7 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
             total += element.quantity * price;
         });
 
-        setTotalBill(parseFloat((total + shippingCharge).toFixed(2)));
+        setTotalBill(parseFloat((total).toFixed(2)));
 
         toast.success("Item removed from cart!");
 
@@ -329,7 +329,7 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
                         {/* <p>$9</p> */}
                         <p>N/A</p>
                         <p>{shippingCharge}</p>
-                        <h4>${parseFloat(totalBill.toFixed(2))}</h4>
+                        <h4>${parseFloat((totalBill + shippingCharge).toFixed(2))}</h4>
                     </div>
                 </div>
             </div>

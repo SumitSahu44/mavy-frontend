@@ -12,30 +12,35 @@ const PaymentSuccess = () => {
             const queryParams = new URLSearchParams(window.location.search);
             const sessionId = queryParams.get('session_id');
          
-            try {
-                // const response = await fetch(`http://localhost:4000/user/verify-payment?session_id=${sessionId}`);
-                // const result = await response.json();
+            if(!sessionId)
+            {
+               return window.location.href="./"
+            }else{
 
-                // if (result.paymentStatus === 'paid') {
-                // Clear the cart
-                const deleteResponse = await fetch('https://mavy-pxtx.onrender.com/user/cartClear', {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'application/json',
-                       'Authorization': `Bearer ${authToken}`, // Attach token in the Authorization header
-                      },  
-                    credentials: 'include',
-                });
 
-                if (deleteResponse.ok) {
-                    console.log("Cart items cleared successfully.");
-                } else {
-                    console.error("Error clearing the cart:", await deleteResponse.json());
+                try {
+                
+                    const deleteResponse = await fetch('https://mavy-pxtx.onrender.com/user/cartClear', {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                           'Authorization': `Bearer ${authToken}`, // Attach token in the Authorization header
+                          },  
+                        credentials: 'include',
+                    });
+    
+                    if (deleteResponse.ok) {
+                        console.log("Cart items cleared successfully.");
+                    } else {
+                        console.error("Error clearing the cart:", await deleteResponse.json());
+                    }
+                    // }
+                } catch (error) {
+                    console.error('Error verifying payment status:', error);
                 }
-                // }
-            } catch (error) {
-                console.error('Error verifying payment status:', error);
             }
+
+          
         };
 
         checkPaymentStatus();
