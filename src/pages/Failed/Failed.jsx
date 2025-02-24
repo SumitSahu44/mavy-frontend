@@ -69,7 +69,7 @@ const Failed = () => {
                                     <i class="fa fa-times-circle" aria-hidden="true"></i>
                                     <h2> Your payment failed </h2>
                             <p>  Try again later </p> 
-                        
+                        <p><a href="./">Click Here for Home Page</a></p>
                             </div> 
                         </div> 
         </div> 
