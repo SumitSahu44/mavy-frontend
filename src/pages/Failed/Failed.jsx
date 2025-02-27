@@ -18,7 +18,7 @@ const Failed = () => {
                 window.location.href = './'
             }
               try {
-                    const response = await fetch(`https://mavy-pxtx.onrender.com/user/checkout?session_id=${sessionId}`);
+                    const response = await fetch(`http://localhost:4000/user/checkout?session_id=${sessionId}`);
                     const data = await response.json();
     
                    

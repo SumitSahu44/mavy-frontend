@@ -11,14 +11,15 @@ const PaymentSuccess = () => {
         const checkPaymentStatus = async () => {
             const queryParams = new URLSearchParams(window.location.search);
             const sessionId = queryParams.get('session_id');
+            const email = queryParams.get('email');
          
-            console.log(sessionId)
+            console.log('session id inside checkpaymnent',sessionId)
             if(!sessionId)
             {
                 window.location.href = './'
             }
               try {
-                    const response = await fetch(`https://mavy-pxtx.onrender.com/user/checkout?session_id=${sessionId}`);
+                    const response = await fetch(`http://localhost:4000/user/checkout?session_id=${sessionId}`);
                     const data = await response.json();
     
                    
@@ -46,11 +47,6 @@ const PaymentSuccess = () => {
                             
                              console.log("Cart cleared from localStorage.");
                         }
-
-                        
-
-                      
-
                     } 
                     else {
                        window.location.href="./"
