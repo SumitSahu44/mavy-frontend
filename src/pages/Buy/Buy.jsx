@@ -26,6 +26,8 @@ const Buy=()=>{
   const [cartLength, setCartLength] = useState(
     (JSON.parse(localStorage.getItem("cart")) || []).length
 );
+
+
   const sizePriceMapping = {
     "S": 24.99,
     "M": 24.99,

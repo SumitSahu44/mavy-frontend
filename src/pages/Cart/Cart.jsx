@@ -189,7 +189,7 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
         setError(""); // Clear error when email is valid
         // Proceed with checkout logic
         try {
-           const response = await fetch('http://localhost:4000/user/checkout', {
+           const response = await fetch('https://mavy-pxtx.onrender.com/user/checkout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
