@@ -145,7 +145,7 @@ function Home() {
                             <a href="/about"><h4>About</h4></a>
                             <a href="/product"><h4>Products</h4></a>
                             <a href="/cart"><h4>Cart</h4></a>
-                            <a href="/login"><h4>Profile</h4></a>
+                            {/* <a href="/login"><h4>Profile</h4></a> */}
                             <i><IoMdClose /></i>
                         </div>
                     </div>
@@ -281,28 +281,28 @@ function Home() {
 
                     <div className="rating-info">
                         <div className="review ">
-                            <div className="r-img-cont"><img src="/img/image1 (1).jpeg" alt="" /><span>Hasna Azlya</span></div>
+                            <div className="r-img-cont"><img src="https://images.unsplash.com/photo-1455637935731-89621316d929?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8YW1lcmljYW4lMjBwZW9wbGV8ZW58MHx8MHx8fDA%3D" style={{"objectFit":"cover"}} alt="" /><span>Jessica Brown</span></div>
                             <i></i>
                             <p>I recently purchased a few items from this website, and I am thoroughly impressed! The quality of the clothing is exceptional—soft fabrics and well-made seams.</p>
                             <h4>Reply</h4>
                         </div>
 
                         <div className="review ">
-                            <div className="r-img-cont"><img src="/img/image1 (1).jpeg" alt="" /><span>Hasna Azlya</span></div>
+                            <div className="r-img-cont"><img src="https://images.unsplash.com/photo-1522529599102-193c0d76b5b6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fGFtZXJpY2FuJTIwcGVvcGxlfGVufDB8fDB8fHww" style={{"objectFit":"cover"}} alt="" /><span>David Miller</span></div>
                             <i></i>
                             <p>I love the variety of styles available on this site. Whether I’m looking for casual wear or something a bit more formal, they have it all.</p>
                             <h4>Reply</h4>
                         </div>
 
                         <div className="review">
-                            <div className="r-img-cont"><img src="/img/image1 (1).jpeg" alt="" /><span>Hasna Azlya</span></div>
+                            <div className="r-img-cont"><img src="https://media.istockphoto.com/id/1300972574/photo/millennial-male-team-leader-organize-virtual-workshop-with-employees-online.webp?a=1&b=1&s=612x612&w=0&k=20&c=zrbUynu9yxsQtWT1n5G9-GTyJZs11xhG3apO_e_2x5U=" style={{"objectFit":"cover"}} alt="" /><span>Michael Williams</span></div>
                             <i></i>
                             <p>The selection of clothing is impressive, and the quality is generally great. I found a stunning dress that I adore. However, there was a small delay in shipping. </p>
                             <h4>Reply</h4>
                         </div>
 
                         <div className="review">
-                            <div className="r-img-cont"><img src="/img/image1 (1).jpeg" alt="" /><span>Hasna Azlya</span></div>
+                            <div className="r-img-cont"><img src="https://images.unsplash.com/photo-1729214718224-78174c0edd63?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fG1hbGUlMjAlMjBwaG90b3xlbnwwfHwwfHx8MA%3D%3D" alt=""  style={{"objectFit":"cover"}} /><span>John Smith</span></div>
                             <i></i>
                             <p>I was pleasantly surprised by how affordable the clothing is without compromising on quality. The fabrics feel durable, and the designs are on-trend. </p>
                             <h4>Reply</h4>
@@ -337,17 +337,17 @@ function Home() {
                             <div className="link">
                                 <h3>Links</h3>
                                 <ul>
-                                    <li><a href="#">Home</a></li>
-                                    <li><a href="#">About</a></li>
-                                    <li><a href="#">Product</a></li>
+                                    <li><a href="/">Home</a></li>
+                                    <li><a href="./about">About</a></li>
+                                    <li><a href="./product">Product</a></li>
                                 </ul>
                             </div>
                             <div className="social">
                                 <h3>Follow Us</h3>
                                 <ul>
-                                    <li><a href="#">Instagram</a></li>
-                                    <li><a href="#">Facebook</a></li>
-                                    <li><a href="#">Twitter</a></li>
+                                    <li><a href="https://www.instagram.com/mavyscrubs?igsh=dWpvMWM3NGl4cGps&utm_source=qr">Instagram</a></li>
+                                    <li><a href="https://www.facebook.com/profile.php?id=61566524166958&mibextid=wwXIfr&mibextid=wwXIfr">Facebook</a></li>
+                                    {/* <li><a href="#">Twitter</a></li> */}
                                 </ul>
                             </div>
                         </div>

@@ -55,10 +55,10 @@ const About = () => {
             </div>
             <div id="full">
                   <a href="/"><h4>Home</h4></a>
-                  <a href="#"><h4>About</h4></a>
+                  <a href="./about"><h4>About</h4></a>
                   <a href="./product"><h4>Products</h4></a>
                   <a href="./cart"><h4>Cart</h4></a>
-                  <a href="./login"><h4>Profile</h4></a>
+                  {/* <a href="./login"><h4>Profile</h4></a> */}
               <i><IoMdClose /></i>
             </div>
           </div>
@@ -132,17 +132,17 @@ const About = () => {
                 <div className="link">
                     <h3>Links</h3>
                     <ul>
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">About</a></li>
-                        <li><a href="#">Products</a></li>
+                        <li><a href="/">Home</a></li>
+                        <li><a href="./about">About</a></li>
+                        <li><a href="./product">Products</a></li>
                     </ul>
                 </div>
                 <div className="social">
                     <h3>Follow Us</h3>
                     <ul>
-                        <li><a href="#">Instagram</a></li>
-                        <li><a href="#">Facebook</a></li>
-                        <li><a href="#">Twitter</a></li>
+                        <li><a href="https://www.instagram.com/mavyscrubs?igsh=dWpvMWM3NGl4cGps&utm_source=qr">Instagram</a></li>
+                        <li><a href="https://www.facebook.com/profile.php?id=61566524166958&mibextid=wwXIfr&mibextid=wwXIfr">Facebook</a></li>
+                        {/* <li><a href="#">Twitter</a></li> */}
                     </ul>
                 </div>
             </div>
