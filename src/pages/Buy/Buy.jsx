@@ -141,11 +141,16 @@ close.addEventListener("click",function(){
 
  // Function to handle the Add to Cart action
  const handleAddToCartClick = () => {
-  if (!selectedColor || !selectedSize) {
+
+  const selectedQty = parseInt(quantity, 10); // Convert input value to number
+
+  if (!selectedColor || !selectedSize || isNaN(selectedQty) || selectedQty < 1) {
     !selectedColor && toast.error("Select Color");
     !selectedSize && toast.error("Select Size");
+    (isNaN(selectedQty) || selectedQty < 1) && toast.error("Enter a valid quantity");
     return;
   }
+
 
   // Get existing cart from localStorage or initialize an empty array
   let cart = JSON.parse(localStorage.getItem('cart')) || [];
@@ -157,13 +162,13 @@ close.addEventListener("click",function(){
 
   if (existingItemIndex !== -1) {
     // Update the quantity if the product exists
-    cart[existingItemIndex].quantity += 1;
+    cart[existingItemIndex].quantity += selectedQty;
   } else {
     // Add new product to the cart
    
     cart.push({
       productId,
-      quantity: 1,
+      quantity: selectedQty,
       size: selectedSize,
       color: selectedColor,
     });
