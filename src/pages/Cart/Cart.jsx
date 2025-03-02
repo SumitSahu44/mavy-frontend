@@ -267,8 +267,6 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
 
                 if (item.color === "Navy Blue") {
                     colorCode = "#000080"; 
-                } else if (item.color === "Light Green") {
-                    colorCode = "#90EE90"; 
                 } else if (item.color === "Black") {
                     colorCode = "#000000"; 
                 } else {

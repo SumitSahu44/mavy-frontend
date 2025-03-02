@@ -38,8 +38,7 @@ const Buy=()=>{
   };
 
   const colors = [
-    { name: "Light Green", code: "#90EE90" },
-    { name: "Navy Blue", code: "#000080" },
+   { name: "Navy Blue", code: "#000080" },
     { name: "Black", code: "#000000" },
     { name: "White", code: "#FFFFFF" }
   ];
