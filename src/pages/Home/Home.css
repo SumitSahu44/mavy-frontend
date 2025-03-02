@@ -95,7 +95,8 @@ section{
 }
 #nav img{
     width: 150px;
-    height: 150px;
+    height: 130px !important;
+    object-fit: contain;
 }
 #full{
     height: 100%;

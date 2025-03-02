@@ -4,7 +4,7 @@
 ._success {
     box-shadow: 0 15px 25px #00000019;
     padding: 45px;
-    width: 600px;
+    max-width: 600px;
     text-align: center;
     margin: 40px auto;
     border-bottom: solid 4px #28a745;
