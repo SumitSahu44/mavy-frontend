@@ -81,26 +81,11 @@ const PaymentSuccess = () => {
                     if (data.success) {
                         setIsValid(true);
 
-                        const mailResponse = await fetch('https://mavy-pxtx.onrender.com/user/checkout', {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                            //    'Authorization': `Bearer ${authToken}`, // Attach token in the Authorization header
-                              },  
-                            credentials: 'include', // Include cookies
-                            body: JSON.stringify({
-                                email, // Send the email from input
-                             
-                            })
-                        });
-
-                        if(mailResponse)
-                        {
-                            localStorage.removeItem("cart");
+                           localStorage.removeItem("cart");
                             localStorage.clear();
                             
                              console.log("Cart cleared from localStorage.");
-                        }
+                        
                     } 
                     else {
                        window.location.href="./"
