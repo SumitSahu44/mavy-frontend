@@ -81,12 +81,14 @@ const PaymentSuccess = () => {
                     if (data.success) {
                         setIsValid(true);
 
-                           localStorage.removeItem("cart");
+                       
+
+                            localStorage.removeItem("cart");
                             localStorage.clear();
                             
                              console.log("Cart cleared from localStorage.");
-                        
-                    } 
+                        }
+                   
                     else {
                        window.location.href="./"
                     }
