@@ -68,47 +68,47 @@ const PaymentSuccess = () => {
             const email = queryParams.get('email');
          
             console.log('session id inside checkpaymnent',sessionId)
-            // if(!sessionId)
-            // {
-            //     window.location.href = './'
-            // }
-            //   try {
-            //         const response = await fetch(`https://mavy-pxtx.onrender.com/user/checkout?session_id=${sessionId}`);
-            //         const data = await response.json();
+            if(!sessionId)
+            {
+                window.location.href = './'
+            }
+              try {
+                    const response = await fetch(`https://mavy-pxtx.onrender.com/user/checkout?session_id=${sessionId}`);
+                    const data = await response.json();
     
                    
-            //         // console.log(data)
-            //         if (data.success) {
-            //             setIsValid(true);
+                    // console.log(data)
+                    if (data.success) {
+                        setIsValid(true);
 
-            //             const mailResponse = await fetch('https://mavy-pxtx.onrender.com/user/checkout', {
-            //                 method: 'POST',
-            //                 headers: {
-            //                     'Content-Type': 'application/json',
-            //                 //    'Authorization': `Bearer ${authToken}`, // Attach token in the Authorization header
-            //                   },  
-            //                 credentials: 'include', // Include cookies
-            //                 body: JSON.stringify({
-            //                     email, // Send the email from input
+                        const mailResponse = await fetch('https://mavy-pxtx.onrender.com/user/checkout', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            //    'Authorization': `Bearer ${authToken}`, // Attach token in the Authorization header
+                              },  
+                            credentials: 'include', // Include cookies
+                            body: JSON.stringify({
+                                email, // Send the email from input
                              
-            //                 })
-            //             });
+                            })
+                        });
 
-            //             if(mailResponse)
-            //             {
-            //                 localStorage.removeItem("cart");
-            //                 localStorage.clear();
+                        if(mailResponse)
+                        {
+                            localStorage.removeItem("cart");
+                            localStorage.clear();
                             
-            //                  console.log("Cart cleared from localStorage.");
-            //             }
-            //         } 
-            //         else {
-            //            window.location.href="./"
-            //         }
-            //     } catch (error) {
-            //         console.error("Session validation error:", error);
-            //         navigate("/"); // Redirect on any error
-            //     }
+                             console.log("Cart cleared from localStorage.");
+                        }
+                    } 
+                    else {
+                       window.location.href="./"
+                    }
+                } catch (error) {
+                    console.error("Session validation error:", error);
+                    navigate("/"); // Redirect on any error
+                }
                       
     
                   
@@ -124,7 +124,7 @@ const PaymentSuccess = () => {
   
         <div>
 
-               <header>
+                           <header>
                                 <div className="navbar">
                                     <div id="nav">
                                         <img src="/img/qt=q_95.jpeg" alt="" />
@@ -148,31 +148,35 @@ const PaymentSuccess = () => {
                                 </div>
                             </header>
 
-
+                            {
+                                isValid ?   <div className="container">
+                                <div className="row justify-content-center">
+                                    <div className="col-md-5">
+                                        <div className="message-box _success">
+                                            <i className="fa fa-check-circle" aria-hidden="true"></i>
+                                            <h2> Your payment was successful </h2>
+                                            <p style={{"text-align":"justify"}}>Thank you for choosing Mavy Scrubs! Each piece is handmade with care in Ghana using authentic kente fabric. Please allow 30-45 business days for delivery due to the handmade process and international shipping.
+                
+                                             
+                                            </p>
+                                            <br />              
+                                                <p style={{"text-align":"justify"}}> 
+                                                We appreciate your patience and support!
+                                                 Mavy Scrubs Team</p>
+                
+                                              <br />
+                                             <h4 className='redirect'><a href="/">Back to MavyScrubs</a></h4>  
+                                        </div>
+                                    </div>
+                                </div>
+                                {/* <hr /> */}
+                           </div> : <>
+                                  {window.location.href='/'}
+                            </>
+                            }
 
      {/* <IoCheckmarkDoneCircle className='success-icon' /> */}
-            <div className="container">
-                <div className="row justify-content-center">
-                    <div className="col-md-5">
-                        <div className="message-box _success">
-                            <i className="fa fa-check-circle" aria-hidden="true"></i>
-                            <h2> Your payment was successful </h2>
-                            <p style={{"text-align":"justify"}}>Thank you for choosing Mavy Scrubs! Each piece is handmade with care in Ghana using authentic kente fabric. Please allow 30-45 business days for delivery due to the handmade process and international shipping.
-
-                             
-                            </p>
-                            <br />              
-                                <p style={{"text-align":"justify"}}> 
-                                We appreciate your patience and support!
-                                 Mavy Scrubs Team</p>
-
-                              <br />
-                             <h4 className='redirect'><a href="/">Back to MavyScrubs</a></h4>  
-                        </div>
-                    </div>
-                </div>
-                {/* <hr /> */}
-           </div>
+          
         </div>
     );
 };
