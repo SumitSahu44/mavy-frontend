@@ -66,71 +66,76 @@ const PaymentSuccess = () => {
     useEffect(() => {
         const checkPaymentStatus = async () => {
             const queryParams = new URLSearchParams(window.location.search);
-            const sessionId = queryParams.get('session_id');
-            const email = queryParams.get('email');
-         
-            console.log('session id inside checkpaymnent',sessionId)
-            if(!sessionId)
-            {
-                // window.location.href = './'
-            }
-              try {
-                    const response = await fetch(`http://localhost:4000/user/checkout?session_id=${sessionId}`);
-                    const data = await response.json();
-    
-                   
-                    // console.log(data)
-                    if (data.success) {
-                        setIsValid(true);
+            const sessionId = queryParams.get("session_id");
 
-                       
-                       fetch("http://localhost:4000/user/get-product-session", { credentials: "include" }) // Ensure credentials are included for sessions
+            console.log("Session ID inside checkPaymentStatus:", sessionId);
+
+            if (!sessionId) {
+                console.error("Session ID is missing. Redirecting...");
+                return; // Prevent further execution if session_id is missing
+            }
+
+            try {
+                // ✅ Validate Payment Session
+                const response = await fetch(`http://localhost:4000/user/checkout?session_id=${sessionId}`);
+                const data = await response.json();
+
+                if (data.success) {
+                    setIsValid(true);
+
+                    // ✅ Fetch session data separately AFTER validation
+                    fetch("http://localhost:4000/user/get-product-session", { credentials: "include" })
                         .then((res) => res.json())
                         .then((data) => setSessionData(data))
                         .catch((err) => console.error("Error fetching session data:", err));
-             
-
-
-
-
-
-
-
-
-
-
-
-                            localStorage.removeItem("cart");
-                            localStorage.clear();
-                            
-                             console.log("Cart cleared from localStorage.");
-                        }
-                   
-                    else {
-                    //    window.location.href="./"
-                    }
-                } catch (error) {
-                    console.error("Session validation error:", error);
-                    navigate("/"); // Redirect on any error
+                } else {
+                    console.error("Invalid payment session.");
                 }
-                      
-    
-                  
+            } catch (error) {
+                console.error("Session validation error:", error);
+            }
         };
 
         checkPaymentStatus();
     }, []);
 
+    // ✅ Send data to PHP API only when sessionData updates
+    useEffect(() => {
+        if (sessionData) {
+            console.log("Fetched Session Data:", sessionData);
+
+            const formattedData = {
+                userEmail: sessionData.userEmail,
+                productData: sessionData.productData.map((item) => ({
+                    name: item.price_data.product_data.name,
+                    unit_price: item.price_data.unit_amount,
+                    quantity: item.quantity
+                }))
+            };
+
+            // ✅ Send to PHP API
+            fetch("http://mavyscrubs.com/phpMail.php", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(formattedData)
+            })
+                .then((response) => response.json())
+                .then((result) => console.log("Email Sent Successfully:", result))
+                .catch((error) => console.error("Error Sending Email:", error));
+
+            // ✅ Clear localStorage after successful API call
+            localStorage.removeItem("cart");
+            console.log("Cart cleared from localStorage.");
+        }
+    }, [sessionData]); // <-- Runs when sessionData updates
 
      
     return (
 
   
         <div>
-            <h1>hi</h1>
-        {JSON.stringify(sessionData, null, 2)}
-
-                           <header>
+           
+                          <header>
                                 <div className="navbar">
                                     <div id="nav">
                                         <img src="/img/qt=q_95.jpeg" alt="" />
