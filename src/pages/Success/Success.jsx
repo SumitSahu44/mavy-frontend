@@ -17,6 +17,8 @@ const PaymentSuccess = () => {
     const [waitingTime, setwaitingTime] = useState(8)
     const authToken = localStorage.getItem('authToken'); // Retrieve token from localStorage
     const [isValid, setIsValid] = useState(false);
+    const [sessionData, setSessionData] = useState(null);
+
     var cartLength;
     
     const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
@@ -70,10 +72,10 @@ const PaymentSuccess = () => {
             console.log('session id inside checkpaymnent',sessionId)
             if(!sessionId)
             {
-                window.location.href = './'
+                // window.location.href = './'
             }
               try {
-                    const response = await fetch(`https://mavy-pxtx.onrender.com/user/checkout?session_id=${sessionId}`);
+                    const response = await fetch(`http://localhost:4000/user/checkout?session_id=${sessionId}`);
                     const data = await response.json();
     
                    
@@ -82,6 +84,21 @@ const PaymentSuccess = () => {
                         setIsValid(true);
 
                        
+                       fetch("http://localhost:4000/user/get-product-session", { credentials: "include" }) // Ensure credentials are included for sessions
+                        .then((res) => res.json())
+                        .then((data) => setSessionData(data))
+                        .catch((err) => console.error("Error fetching session data:", err));
+             
+
+
+
+
+
+
+
+
+
+
 
                             localStorage.removeItem("cart");
                             localStorage.clear();
@@ -90,7 +107,7 @@ const PaymentSuccess = () => {
                         }
                    
                     else {
-                       window.location.href="./"
+                    //    window.location.href="./"
                     }
                 } catch (error) {
                     console.error("Session validation error:", error);
@@ -110,6 +127,8 @@ const PaymentSuccess = () => {
 
   
         <div>
+            <h1>hi</h1>
+        {JSON.stringify(sessionData, null, 2)}
 
                            <header>
                                 <div className="navbar">
@@ -158,7 +177,7 @@ const PaymentSuccess = () => {
                                 </div>
                                 {/* <hr /> */}
                            </div> : <>
-                                  {window.location.href='/'}
+                                  {/* {window.location.href='/'} */}
                             </>
                             }
 
