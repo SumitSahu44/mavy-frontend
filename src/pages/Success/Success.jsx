@@ -19,11 +19,13 @@ const PaymentSuccess = () => {
     const [isValid, setIsValid] = useState(false);
     const [sessionData, setSessionData] = useState(null);
 
-    var cartLength;
+    const [cartLength, setCartLength] = useState();
     
-    const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
-    cartLength = cartItems.length;
- 
+    useEffect(() => {
+        const cartItems = JSON.parse(localStorage.getItem("cart")) || [];
+        setCartLength(cartItems.length);
+      }, []); // Runs only on mount
+
 
     useGSAP(() => {
         let menu = document.querySelector("#nav i");
@@ -112,19 +114,21 @@ const PaymentSuccess = () => {
                     quantity: item.quantity
                 }))
             };
-
+  console.log(formattedData)
             // ✅ Send to PHP API
-            fetch("http://mavyscrubs.com/phpMail.php", {
+            fetch("https://mavyscrubs.com/phpMail.php", {  // 👈 Use HTTPS
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formattedData)
             })
-                .then((response) => response.json())
-                .then((result) => console.log("Email Sent Successfully:", result))
-                .catch((error) => console.error("Error Sending Email:", error));
+            .then((response) => response.json())
+            .then((result) => console.log("Email Sent Successfully:", result))
+            .catch((error) => console.error("Error Sending Email:", error));
+            
 
             // ✅ Clear localStorage after successful API call
             localStorage.removeItem("cart");
+            setCartLength(0)
             console.log("Cart cleared from localStorage.");
         }
     }, [sessionData]); // <-- Runs when sessionData updates
@@ -182,7 +186,10 @@ const PaymentSuccess = () => {
                                 </div>
                                 {/* <hr /> */}
                            </div> : <>
-                                  {/* {window.location.href='/'} */}
+                                  {
+                                  window.location.href='/'
+                                  }
+
                             </>
                             }
 
