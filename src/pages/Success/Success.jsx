@@ -79,14 +79,14 @@ const PaymentSuccess = () => {
 
             try {
                 // ✅ Validate Payment Session
-                const response = await fetch(`https://mavy-pxtx.onrender.com/user/checkout?session_id=${sessionId}`);
+                const response = await fetch(`http://localhost:4000/user/checkout?session_id=${sessionId}`);
                 const data = await response.json();
 
                 if (data.success) {
                     setIsValid(true);
 
                     // ✅ Fetch session data separately AFTER validation
-                    fetch("https://mavy-pxtx.onrender.com/user/get-product-session", { credentials: "include" })
+                    fetch("http://localhost:4000/user/get-product-session", { credentials: "include" })
                         .then((res) => res.json())
                         .then((data) => setSessionData(data))
                         .catch((err) => console.error("Error fetching session data:", err));
@@ -187,7 +187,7 @@ const PaymentSuccess = () => {
                                 {/* <hr /> */}
                            </div> : <>
                                   {
-                                  window.location.href='/'
+                                //   window.location.href='/'
                                   }
 
                             </>
