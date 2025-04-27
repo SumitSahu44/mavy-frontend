@@ -227,9 +227,11 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
          
           if(couponCode === "MAVY20")
             {
-              alert("Coupon Applied:"+ couponCode);
+
+                setTotalBill(totalBill - (totalBill * 20 / 100));
+              alert("Coupon Applied: "+ couponCode);
             }else{
-              alert("Coupon Not valid:"+ couponCode);
+              alert("Coupon Not valid: "+ couponCode);
             }
         }
       };
