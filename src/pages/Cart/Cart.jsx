@@ -224,7 +224,8 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
           alert("Please enter a valid coupon code.");
         } else {
           // apply logic here
-          console.log("Coupon Applied:", couponCode);
+         
+         
         }
       };
 
