@@ -16,6 +16,7 @@ import { IoMdClose } from "react-icons/io";
     const [productsDetails, setProductsDetails] = useState([]); // Contains fetched product details
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
+    const [couponCode, setCouponCode] = useState("");
 
     const [isLoading, setIsLoading] = useState(true); // Add loading state
     const [totalBill, setTotalBill] = useState(null);
@@ -218,6 +219,18 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
     };
 
 
+    const handleApplyCoupon = () => {
+        if (couponCode.trim() === "") {
+          alert("Please enter a valid coupon code.");
+        } else {
+          // apply logic here
+          console.log("Coupon Applied:", couponCode);
+        }
+      };
+
+      
+
+
     return (
         <div>
             <header>
@@ -317,49 +330,79 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
     )}
 </div>
 
-    {totalBill ? (
-        <div className="cart-right">
-            <h2>Cart Total</h2>
-            <div className="c-info">
-                <div className="c-r-info">
-                    <div>
-                        <p>Cost Subtotal</p>
-                        {/* <p>Shipping Cost</p> */}
-                        <p>Discount</p>
-                        <p>Shipping</p>
-                        <h4>Total Cost</h4>
-                    </div>
-                </div>
-                <div className="c-l-info">
-                    <div>
-                        <p>${parseFloat(totalBill.toFixed(2))}</p>
-                        {/* <p>$9</p> */}
-                        <p>N/A</p>
-                        <p>{shippingCharge}</p>
-                        <h4>${parseFloat((totalBill + shippingCharge).toFixed(2))}</h4>
-                    </div>
-                </div>
-            </div>
-
-            <div>
-                <input type="email" style={{width:"100%",outline:"none",padding:"10px"}}
-                 placeholder="Enter your email"
-                 value={email}
-                 onChange={(e) => setEmail(e.target.value)}
-                 required="" />
-                  {error && <p style={{ color: "red" }}>{error}</p>}
-            </div>
-
-            <div>
-                <input type="text" style={{width:"100%",outline:"none",padding:"10px"}}
-                 placeholder="Enter Coupan Code"
-                />
-            </div>
-            <div className="order-btn">
-                <button onClick={handleCheckout} >Place Order</button>
-            </div>
+{totalBill ? (
+  <div className="cart-right">
+    <h2>Cart Total</h2>
+    <div className="c-info">
+      <div className="c-r-info">
+        <div>
+          <p>Subtotal</p>
+          <p>Discount</p>
+          <p>Shipping</p>
+          <p> <input
+              type="text"
+              placeholder="Enter Coupon Code"
+              value={couponCode}
+              onChange={(e) => setCouponCode(e.target.value)}
+              style={{
+                flex: 1,
+                width: "100%",
+                padding: "8px",
+                outline: "none",
+                border: "1px solid #ccc",
+                borderRadius: "4px",
+              }}
+            /></p> {/* <-- New row heading */}
+          <h4>Total Cost</h4>
         </div>
-    ) : ''}
+      </div>
+      <div className="c-l-info">
+        <div>
+          <p>${parseFloat(totalBill.toFixed(2))}</p>
+          <p>N/A</p>
+          <p>{shippingCharge}</p>
+
+          {/* Coupon Input and Add Button */}
+          <div style={{ display: "flex", gap: "8px", margin: "8px 0" }}>
+           
+            <button
+              onClick={handleApplyCoupon}
+              style={{
+                padding: "8px 16px",
+                backgroundColor: "#007bff",
+                color: "white",
+                border: "none",
+                borderRadius: "4px",
+                cursor: "pointer",
+              }}
+            >
+              Add
+            </button>
+          </div>
+
+          <h4>${parseFloat((totalBill + shippingCharge).toFixed(2))}</h4>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <input
+        type="email"
+        style={{ width: "100%", outline: "none", padding: "10px" }}
+        placeholder="Enter your email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required=""
+      />
+      {error && <p style={{ color: "red" }}>{error}</p>}
+    </div>
+
+    <div className="order-btn">
+      <button onClick={handleCheckout}>Place Order</button>
+    </div>
+  </div>
+) : ''}
+
 </div>
 
             </div>
