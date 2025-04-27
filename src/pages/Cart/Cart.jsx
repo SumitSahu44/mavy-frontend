@@ -349,6 +349,12 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
                  required="" />
                   {error && <p style={{ color: "red" }}>{error}</p>}
             </div>
+
+            <div>
+                <input type="text" style={{width:"100%",outline:"none",padding:"10px"}}
+                 placeholder="Enter Coupan Code"
+                />
+            </div>
             <div className="order-btn">
                 <button onClick={handleCheckout} >Place Order</button>
             </div>
