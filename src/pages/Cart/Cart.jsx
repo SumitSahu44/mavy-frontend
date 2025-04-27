@@ -225,7 +225,12 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
         } else {
           // apply logic here
          
-         
+          if(couponCode === "MAVY20")
+            {
+              alert("Coupon Applied:"+ couponCode);
+            }else{
+              alert("Coupon Not valid:"+ couponCode);
+            }
         }
       };
 
