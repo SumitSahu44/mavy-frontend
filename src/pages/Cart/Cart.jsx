@@ -115,7 +115,15 @@ import { IoMdClose } from "react-icons/io";
                 let price = (["S", "M", "L"].includes(element.size)) ? 24.99 : 34.99;
                 total += element.quantity * price;
             });
+           
 
+            // Check for coupon
+            const appliedCoupon = JSON.parse(localStorage.getItem("appliedCoupon"));
+            if (appliedCoupon && appliedCoupon.discountPercent) {
+                total = total - (total * appliedCoupon.discountPercent) / 100;
+            }
+
+            
 
             
             setTotalBill(parseFloat((total).toFixed(2)));
