@@ -117,14 +117,6 @@ import { IoMdClose } from "react-icons/io";
             });
            
 
-            // Check for coupon
-            const appliedCoupon = JSON.parse(localStorage.getItem("appliedCoupon"));
-            if (appliedCoupon && appliedCoupon.discountPercent) {
-                total = total - (total * appliedCoupon.discountPercent) / 100;
-            }
-
-            
-
             
             setTotalBill(parseFloat((total).toFixed(2)));
 
