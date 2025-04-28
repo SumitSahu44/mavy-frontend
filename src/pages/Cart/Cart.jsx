@@ -234,7 +234,8 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
                     discountPercent: 20
                 }));
                 applyBtn.disabled = true;     // Disable button if already applied
-                applyBtn.innerText="Applied";     
+                applyBtn.innerText="Applied";  
+                applyBtn.style.backgroundColor="green";   
                 alert("Coupon Applied: " + couponCode);
             } else {
                 alert("Coupon Not valid: " + couponCode);
