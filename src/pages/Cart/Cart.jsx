@@ -115,7 +115,7 @@ import { IoMdClose } from "react-icons/io";
                 let price = (["S", "M", "L"].includes(element.size)) ? 24.99 : 34.99;
                 total += element.quantity * price;
             });
-
+           
 
             
             setTotalBill(parseFloat((total).toFixed(2)));
@@ -221,21 +221,23 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
 
     const handleApplyCoupon = () => {
         if (couponCode.trim() === "") {
-          alert("Please enter a valid coupon code.");
+            alert("Please enter a valid coupon code.");
         } else {
-          // apply logic here
-         
-          if(couponCode === "MAVY20")
-            {
-
-                setTotalBill(totalBill - (totalBill * 20 / 100));
-              alert("Coupon Applied: "+ couponCode);
-            }else{
-              alert("Coupon Not valid: "+ couponCode);
+            if (couponCode === "MAVY20") {
+                const discountAmount = (totalBill * 20) / 100;
+                const newBill = totalBill - discountAmount;
+                setTotalBill(newBill);
+                localStorage.setItem("appliedCoupon", JSON.stringify({
+                    code: couponCode,
+                    discountPercent: 20
+                }));
+                alert("Coupon Applied: " + couponCode);
+            } else {
+                alert("Coupon Not valid: " + couponCode);
             }
         }
-      };
-
+    };
+    
       
 
 
