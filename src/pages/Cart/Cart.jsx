@@ -224,6 +224,8 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
             alert("Please enter a valid coupon code.");
         } else {
             if (couponCode === "MAVY20") {
+                const applyBtn = document.getElementById('applyBtn');
+ 
                 const discountAmount = (totalBill * 20) / 100;
                 const newBill = totalBill - discountAmount;
                 setTotalBill(newBill);
@@ -231,6 +233,8 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
                     code: couponCode,
                     discountPercent: 20
                 }));
+                applyBtn.disabled = true;     // Disable button if already applied
+                applyBtn.innerText="Applied";     
                 alert("Coupon Applied: " + couponCode);
             } else {
                 alert("Coupon Not valid: " + couponCode);
@@ -376,6 +380,7 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
           <div style={{ display: "flex", gap: "8px", margin: "8px 0" }}>
            
             <button
+            id="applyBtn"
               onClick={handleApplyCoupon}
               style={{
                 padding: "8px 16px",
