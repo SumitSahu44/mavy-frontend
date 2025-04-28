@@ -221,21 +221,23 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
 
     const handleApplyCoupon = () => {
         if (couponCode.trim() === "") {
-          alert("Please enter a valid coupon code.");
+            alert("Please enter a valid coupon code.");
         } else {
-          // apply logic here
-         
-          if(couponCode === "MAVY20")
-            {
-
-              setTotalBill((prevBill) => prevBill - (prevBill * 20) / 100);
-              alert("Coupon Applied: "+ couponCode);
-            }else{
-              alert("Coupon Not valid: "+ couponCode);
+            if (couponCode === "MAVY20") {
+                const discountAmount = (totalBill * 20) / 100;
+                const newBill = totalBill - discountAmount;
+                setTotalBill(newBill);
+                localStorage.setItem("appliedCoupon", JSON.stringify({
+                    code: couponCode,
+                    discountPercent: 20
+                }));
+                alert("Coupon Applied: " + couponCode);
+            } else {
+                alert("Coupon Not valid: " + couponCode);
             }
         }
-      };
-
+    };
+    
       
 
 
