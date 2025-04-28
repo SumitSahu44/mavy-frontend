@@ -228,7 +228,7 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
           if(couponCode === "MAVY20")
             {
 
-                setTotalBill(totalBill - (totalBill * 20 / 100));
+              setTotalBill((prevBill) => prevBill - (prevBill * 20) / 100);
               alert("Coupon Applied: "+ couponCode);
             }else{
               alert("Coupon Not valid: "+ couponCode);
