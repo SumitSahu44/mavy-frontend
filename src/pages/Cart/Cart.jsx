@@ -224,7 +224,7 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
 
     const handleApplyCoupon = () => {
         if (couponCode.trim() === "") {
-            alert("Please enter a valid coupon code.");
+           toast.error("Please enter a valid coupon code.");
         } else {
             if (couponCode.toUpperCase() === "MAVY20") {
                 const applyBtn = document.getElementById('applyBtn');
@@ -241,9 +241,9 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
                 applyBtn.disabled = true;
                 applyBtn.innerText = "Applied";
                 applyBtn.style.backgroundColor = "green";
-                alert("Coupon Applied: " + couponCode);
+                toast.success("Coupon Applied: " + couponCode);
             } else {
-                alert("Coupon Not valid: " + couponCode);
+              toast.error("Coupon Not valid: " + couponCode);
             }
         }
     };
