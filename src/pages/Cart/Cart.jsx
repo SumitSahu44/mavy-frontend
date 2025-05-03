@@ -80,7 +80,7 @@ import { IoMdClose } from "react-icons/io";
             const fetchedProductDetails = await Promise.all(
                 storedCart.map(async (item) => {
                     try {
-                        const productResponse = await fetch(`http://localhost:4000/user/products?pid=${item.productId}`, {
+                        const productResponse = await fetch(`https://mavy-pxtx.onrender.com/user/products?pid=${item.productId}`, {
                             method: 'GET',
                             credentials: 'include'
                         });
@@ -182,60 +182,65 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
 
 
       // Handle checkout
-    const handleCheckout = async () => {
+      const handleCheckout = async () => {
         if (!email) {
             setError("Email is required");
             return;
         }
-        setError(""); // Clear error when email is valid
-        // Proceed with checkout logic
+    
+        setError("");
+    
         try {
-           const response = await fetch('http://localhost:4000/user/checkout', {
+            const response = await fetch('https://mavy-pxtx.onrender.com/user/checkout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                //    'Authorization': `Bearer ${authToken}`, // Attach token in the Authorization header
-                  },  
-                credentials: 'include', // Include cookies
+                },
+                credentials: 'include',
                 body: JSON.stringify({
-                    email, // Send the email from input
+                    email,
                     cartItems,
-                    totalBill
+                    totalBill,
+                    couponCodePass: couponCode || "NA"
                 })
+                
             });
-
+    
             const result = await response.json();
             if (result.url) {
-                // Redirect to Stripe Checkout page
                 window.location.href = result.url;
             } else {
                 console.error("Error creating Stripe Checkout session");
             }
-           
         } catch (error) {
             console.error('Error during checkout:', error);
             alert("Error occurred while placing the order.");
         }
     };
+    
 
+
+    const [discountPercent, setDiscountPercent] = useState(0);
 
     const handleApplyCoupon = () => {
         if (couponCode.trim() === "") {
             alert("Please enter a valid coupon code.");
         } else {
-            if (couponCode === "MAVY20") {
+            if (couponCode.toUpperCase() === "MAVY20") {
                 const applyBtn = document.getElementById('applyBtn');
- 
+    
                 const discountAmount = (totalBill * 20) / 100;
                 const newBill = totalBill - discountAmount;
+    
                 setTotalBill(newBill);
-                localStorage.setItem("appliedCoupon", JSON.stringify({
-                    code: couponCode,
-                    discountPercent: 20
-                }));
-                applyBtn.disabled = true;     // Disable button if already applied
-                applyBtn.innerText="Applied";  
-                applyBtn.style.backgroundColor="green";   
+                setDiscountPercent(20); // NEW LINE
+                // localStorage.setItem("appliedCoupon", JSON.stringify({
+                //     code: couponCode,
+                //     discountPercent: 20
+                // }));
+                applyBtn.disabled = true;
+                applyBtn.innerText = "Applied";
+                applyBtn.style.backgroundColor = "green";
                 alert("Coupon Applied: " + couponCode);
             } else {
                 alert("Coupon Not valid: " + couponCode);
@@ -243,7 +248,6 @@ const removeCartItem = (itemId, itemColor, itemSize) => {
         }
     };
     
-      
 
 
     return (
