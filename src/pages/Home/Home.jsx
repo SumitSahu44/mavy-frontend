@@ -331,8 +331,7 @@ function Home() {
                                 <ul>
                                     <li><a href="#">Contact Us</a></li>
                                     <li>Call +1 276-336-1681</li>
-                                    <li><a href="#">Address:</a> 3297 Bassett hgts rd ext
-                                    Bassett Va 24055</li>
+                                    <li><a href="#">Address:</a> Virginia</li>
                                 </ul>
                             </div>
                             <div className="link">
